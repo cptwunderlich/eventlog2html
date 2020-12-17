@@ -1,0 +1,3 @@
+[submodule "ghc-events"]
+	path = ghc-events
+	url = https://github.com/mpickering/ghc-events.git
