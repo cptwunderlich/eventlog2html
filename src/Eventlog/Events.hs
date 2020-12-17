@@ -182,17 +182,17 @@ folder a el (Event t e _) = el &
       HeapBioProfSampleBegin { heapProfSampleTime = t' } -> addFrame t'
       HeapProfSampleCostCentre _hid r d s -> addCCSample r d s
       HeapProfSampleString _hid res k -> addSample (Sample (Bucket k) (fromIntegral res))
-      --IPE ptr name desc ty lbl smod sloc -> addInfoTableLoc (InfoTablePtr ptr,
-      --                                        InfoTableLoc name (parseClosureType desc) ty lbl smod sloc)
+      IPE ptr name desc ty lbl smod sloc -> addInfoTableLoc (InfoTablePtr ptr,
+                                              InfoTableLoc name (parseClosureType desc) ty lbl smod sloc)
       _ -> id
 
-_parseClosureType :: Text -> ClosureType
+parseClosureType :: Text -> ClosureType
 -- IPEs do not distinguish different CONSTR types, yet
-_parseClosureType "0" = CONSTR
-_parseClosureType ct = toEnum . read @Int . T.unpack $ ct
+parseClosureType "0" = CONSTR
+parseClosureType ct = toEnum . read @Int . T.unpack $ ct
 
-_addInfoTableLoc :: (InfoTablePtr, InfoTableLoc) -> EL -> EL
-_addInfoTableLoc itl el = el { ipes = itl : ipes el }
+addInfoTableLoc :: (InfoTablePtr, InfoTableLoc) -> EL -> EL
+addInfoTableLoc itl el = el { ipes = itl : ipes el }
 
 addHeapProfBegin :: Word64 -> HeapProfBreakdown -> EL -> EL
 addHeapProfBegin sr hptype el = el { samplingRate = Just sr, heapProfileType = Just hptype }
