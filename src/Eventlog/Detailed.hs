@@ -88,7 +88,6 @@ renderClosureInfo (ts, bs) mipes raw_bs = do
       H.td ""
       H.td ""
       H.td ""
-      H.td ""
 
     renderEntry (Bucket k) (mitl, (n, BucketInfo _ _ tot std mg)) = do
           let (a, b, r2) =
